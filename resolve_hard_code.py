@@ -88,15 +88,15 @@ def generate_name_of_hard_code_string(hard_codes):
     '''
     res = dict()
     for hard_code in hard_codes:
-        hc = re.sub("""[\s+\.\!\/_,\{\}:$%^*()?+\"\']+|[+——＋！：，\\\ 。？、~@#￥%……&*（）]+""", "", hard_code) #去除特殊字符
+        hc = re.sub("""[\s+\.\!\/_,\{\}:$%^*()?+\"\']+|[【】|©+——＋！：，\\\ 。？、~@#￥%……&*（）\\-]+""", "", hard_code) #去除特殊字符
         py = ''
         if hc is None or len(hc) == 0: #如果去除字符后为，则硬编码为特殊字符，这是我们就要随机命名
             py = generate_random_string(15)
         else:
             py = lazy_pinyin(hc)
-            py = '_'.join(py)[0:25].strip() #限制长度，去除空格
+            py = '_'.join(py)[0:15].strip() #限制长度，去除空格
         try:
-            res[str(hard_code)] = py
+            res[str(hard_code)] = 'py_' + py + generate_random_string(5) #增加字符串前缀，防止开头是数字
         except Exception as e:
             print(e)
             pass
